@@ -24,21 +24,45 @@
     .final{min-height:75vh;display:grid;place-items:center;text-align:center;color:white;position:relative;background:#252326 url('assets/story-2.jpg') center/cover no-repeat;padding:60px 22px}.final:before{content:"";position:absolute;inset:0;background:rgba(27,24,25,.55)}.final-inner{position:relative;z-index:1}.final h2{font:italic 500 clamp(52px,11vw,100px)/.9 "Cormorant Garamond",serif}.final p{font-size:17px;letter-spacing:.08em}.footer{padding:28px;text-align:center;background:#252326;color:rgba(255,255,255,.55);font-size:12px;letter-spacing:.13em}
     .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}.reveal.visible{opacity:1;transform:none}
     @media(max-width:760px){.section{padding:72px 20px}.hero{min-height:92svh;background-position:54% center}.date-card{gap:12px}.date-day{font-size:82px}.story-grid{grid-template-columns:1fr;gap:45px}.story-photo img{height:530px}.small-photo{margin-top:-65px}.events:before{left:57px}.event{grid-template-columns:72px 1fr;gap:20px;padding:25px 0}.event-time{text-align:left;font-size:35px}.event-dot{position:absolute;left:51px;margin-top:-95px;width:13px;height:13px}.event-info{text-align:left}.counter{gap:15px}.counter b{font-size:46px}.palette{gap:8px}.swatch{width:46px;height:46px}.final{min-height:65vh}}
-    body.intro-playing{overflow:hidden}
-    .video-intro{position:fixed;inset:0;z-index:10000;background:#000;display:grid;place-items:center;overflow:hidden;opacity:1;visibility:visible;transition:opacity .85s ease,visibility .85s ease}
-    .video-intro video{width:100%;height:100%;object-fit:cover;object-position:center;display:block;opacity:1;transform:scale(1.01);transition:opacity .65s ease}
-    .video-intro::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.04),rgba(0,0,0,.12));pointer-events:none}
+
+    /* Видеозаставка с пользовательским экраном запуска для iPhone/Safari */
+    body.intro-playing{overflow:hidden;touch-action:none}
+    .video-intro{position:fixed;inset:0;z-index:10000;background:#080706;overflow:hidden;opacity:1;visibility:visible;transition:opacity .85s ease,visibility .85s ease}
+    .video-intro video{position:absolute;inset:0;width:100vw;height:100dvh;min-width:100%;min-height:100%;object-fit:cover!important;object-position:center;display:block;opacity:0;pointer-events:none;transform:translateZ(0) scale(1.02);transition:opacity .7s ease;-webkit-transform:translateZ(0) scale(1.02)}
+    .video-intro.video-started video{opacity:1}
+    .video-intro::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(15,8,4,.05),rgba(10,5,3,.2));pointer-events:none}
+    .video-gate{position:absolute;inset:0;z-index:4;display:grid;place-items:center;padding:28px;text-align:center;color:#fff8ef;background:radial-gradient(circle at 20% 15%,rgba(255,235,208,.34),transparent 34%),radial-gradient(circle at 82% 80%,rgba(255,218,181,.24),transparent 36%),linear-gradient(145deg,#b58a70 0%,#8b6655 45%,#6f5045 100%);opacity:1;visibility:visible;transition:opacity .8s ease,visibility .8s ease}
+    .video-gate::before{content:"";position:absolute;inset:18px;border:1px solid rgba(255,245,230,.38);border-radius:28px;pointer-events:none}
+    .video-gate.hidden{opacity:0;visibility:hidden;pointer-events:none}
+    .video-gate-inner{position:relative;z-index:1;width:min(520px,100%)}
+    .video-gate-monogram{font:italic 500 clamp(58px,15vw,92px)/.9 "Cormorant Garamond",serif;letter-spacing:.03em;text-shadow:0 8px 30px rgba(53,28,18,.22);margin-bottom:18px}
+    .video-gate-date{font:400 16px/1.4 "Cormorant Garamond",serif;letter-spacing:.3em;text-transform:uppercase;margin:0 0 34px;color:rgba(255,249,240,.86)}
+    .video-gate-button{appearance:none;-webkit-appearance:none;border:1px solid rgba(255,250,242,.78);border-radius:999px;background:rgba(255,249,240,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fffaf3;padding:17px 27px;font:500 12px/1.2 Manrope,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;box-shadow:0 14px 40px rgba(47,24,15,.2);cursor:pointer;transition:transform .25s ease,background .25s ease,box-shadow .25s ease}
+    .video-gate-button:active{transform:scale(.97);background:rgba(255,249,240,.2)}
+    .video-gate-button:disabled{opacity:.72;cursor:default}
+    .video-gate-hint{margin:18px 0 0;font-size:11px;letter-spacing:.08em;color:rgba(255,248,238,.68)}
     .video-intro.fade-to-black video{opacity:0}
     .video-intro.reveal-site{opacity:0;visibility:hidden;pointer-events:none}
-    @media(prefers-reduced-motion:reduce){.video-intro,.video-intro video{transition-duration:.2s}}
+    @media(max-width:760px){.video-gate::before{inset:12px;border-radius:22px}.video-gate-button{width:min(330px,88vw);padding:17px 20px}.video-intro video{height:100svh}}
+    @media(prefers-reduced-motion:reduce){.video-intro,.video-intro video,.video-gate{transition-duration:.2s}}
   </style>
 </head>
-<body>
-  <div class="video-intro" id="videoIntro" aria-hidden="true">
-    <video id="introVideo" autoplay muted playsinline preload="auto">
+<body class="intro-playing">
+
+  <div class="video-intro" id="videoIntro" role="dialog" aria-modal="true" aria-label="Открытие свадебного приглашения">
+    <video id="introVideo" muted playsinline webkit-playsinline preload="auto" disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen">
       <source src="assets/intro.mp4" type="video/mp4">
     </video>
+    <div class="video-gate" id="videoGate">
+      <div class="video-gate-inner">
+        <div class="video-gate-monogram">Р &amp; А</div>
+        <p class="video-gate-date">19 · 09 · 2026</p>
+        <button class="video-gate-button" id="enterWedding" type="button">Принять участие в свадьбе</button>
+        <p class="video-gate-hint">Нажмите, чтобы открыть приглашение</p>
+      </div>
+    </div>
   </div>
+
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-kicker">Приглашение на свадьбу</div>
@@ -47,13 +71,16 @@
       <a href="#welcome" class="scroll" aria-label="Листать вниз"></a>
     </div>
   </header>
+
   <section class="section intro" id="welcome">
     <div class="wrap reveal">
       <div class="monogram">Р&amp;А</div>
       <div class="eyebrow">Дорогие родные и близкие</div>
       <h2 class="title">Мы будем счастливы разделить<br>этот день вместе с вами</h2>
       <p class="lead">Совсем скоро состоится важное для нас событие — наша свадьба. Приглашаем вас стать частью этого тёплого и радостного дня.</p>
-      <div class="date-card"><div class="date-side">Суббота</div><div class="date-day">19</div><div class="date-side">Сентября</div></div>
+      <div class="date-card">
+        <div class="date-side">Суббота</div><div class="date-day">19</div><div class="date-side">Сентября</div>
+      </div>
       <div class="calendar" aria-label="Календарь сентября 2026 года">
         <div class="serif" style="font-size:28px;margin-bottom:18px">Сентябрь 2026</div>
         <div class="cal-grid">
@@ -67,6 +94,7 @@
       </div>
     </div>
   </section>
+
   <section class="section story">
     <div class="wrap story-grid">
       <div class="reveal">
@@ -80,6 +108,7 @@
       </div>
     </div>
   </section>
+
   <section class="section schedule">
     <div class="wrap reveal">
       <div class="eyebrow">Программа дня</div><h2 class="title">Ждём вас</h2>
@@ -89,16 +118,66 @@
       </div>
     </div>
   </section>
+
   <section class="section dress">
     <div class="wrap reveal"><div class="eyebrow" style="color:rgba(255,255,255,.65)">Дресс-код</div><h2 class="title">Свободный строгий</h2><p class="lead">Будем рады, если в своих образах вы поддержите спокойные тёплые оттенки без ярких акцентов.</p><div class="palette"><i class="swatch"></i><i class="swatch"></i><i class="swatch"></i><i class="swatch"></i><i class="swatch"></i></div><p class="note">И ещё одна просьба: не дарите нам цветы — лучше подарите свои улыбки.</p></div>
   </section>
+
   <section class="section countdown">
     <div class="wrap reveal"><div class="eyebrow">До нашей свадьбы осталось</div><h2 class="title">Считаем дни вместе</h2><div class="counter" id="counter"><div><b id="days">—</b><span>дней</span></div><div><b id="hours">—</b><span>часов</span></div><div><b id="minutes">—</b><span>минут</span></div><div><b id="seconds">—</b><span>секунд</span></div></div></div>
   </section>
+
   <section class="final"><div class="final-inner reveal"><div class="eyebrow" style="color:rgba(255,255,255,.7)">До встречи на нашей свадьбе</div><h2>С любовью,<br>Роман и Анна</h2><p>19 сентября 2026 года</p></div></section>
   <footer class="footer">ROMAN &amp; ANNA · 19.09.2026</footer>
+
   <script>
-    (()=>{const splash=document.getElementById('videoIntro'),video=document.getElementById('introVideo');if(!splash||!video)return;document.body.classList.add('intro-playing');let done=false;const finish=()=>{if(done)return;done=true;splash.classList.add('fade-to-black');setTimeout(()=>{splash.classList.add('reveal-site');document.body.classList.remove('intro-playing')},650);setTimeout(()=>splash.remove(),1600)};setTimeout(finish,3000);video.addEventListener('ended',finish,{once:true});video.addEventListener('error',()=>setTimeout(finish,200),{once:true});const p=video.play();if(p&&p.catch)p.catch(()=>{})})();
+
+    (()=>{
+      const splash=document.getElementById('videoIntro');
+      const gate=document.getElementById('videoGate');
+      const button=document.getElementById('enterWedding');
+      const video=document.getElementById('introVideo');
+      if(!splash||!gate||!button||!video){document.body.classList.remove('intro-playing');return}
+
+      let started=false;
+      let done=false;
+      let finishTimer;
+
+      const finish=()=>{
+        if(done)return;
+        done=true;
+        window.clearTimeout(finishTimer);
+        splash.classList.add('fade-to-black');
+        window.setTimeout(()=>{
+          splash.classList.add('reveal-site');
+          document.body.classList.remove('intro-playing');
+        },650);
+        window.setTimeout(()=>splash.remove(),1600);
+      };
+
+      const startVideo=async()=>{
+        if(started)return;
+        started=true;
+        button.disabled=true;
+        video.muted=true;
+        video.currentTime=0;
+        splash.classList.add('video-started');
+        gate.classList.add('hidden');
+
+        try{
+          await video.play();
+          finishTimer=window.setTimeout(finish,3200);
+          video.addEventListener('ended',finish,{once:true});
+          video.addEventListener('error',finish,{once:true});
+        }catch(error){
+          window.setTimeout(finish,250);
+        }
+      };
+
+      button.addEventListener('click',startVideo,{once:true});
+      video.load();
+    })();
+
     const weddingDate = new Date('2026-09-19T14:10:00+03:00');
     function updateCounter(){const diff=weddingDate-new Date();if(diff<=0){document.getElementById('counter').innerHTML='<div class="serif" style="font-size:42px">Сегодня наш день!</div>';return}const d=Math.floor(diff/86400000),h=Math.floor(diff/3600000)%24,m=Math.floor(diff/60000)%60,s=Math.floor(diff/1000)%60;days.textContent=d;hours.textContent=String(h).padStart(2,'0');minutes.textContent=String(m).padStart(2,'0');seconds.textContent=String(s).padStart(2,'0')}
     updateCounter();setInterval(updateCounter,1000);
