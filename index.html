@@ -12,7 +12,7 @@
   <style>
     :root{--cream:#f7f2ec;--paper:#fffdfa;--ink:#302b28;--muted:#776d66;--rose:#b99286;--sage:#899184;--line:rgba(48,43,40,.14)}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,Arial,sans-serif;font-weight:300;overflow-x:hidden}
-    h1,h2,h3,p{margin-top:0}a{color:inherit}.serif{font-family:"Cormorant Garamond",Georgia,serif}.section{padding:92px 22px}.wrap{width:min(1040px,100%);margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.28em;font-size:11px;font-weight:500;color:var(--muted);margin-bottom:18px}.title{font:500 clamp(42px,8vw,78px)/.95 "Cormorant Garamond",serif;margin-bottom:24px}.lead{font-size:clamp(16px,2.5vw,20px);line-height:1.8;color:var(--muted);max-width:690px;margin-inline:auto}
+    h1,h2,h3,p{margin-top:0}a{color:inherit}.serif{font-family:"Cormorant Garamond",Georgia,serif}.ampersand{font-family:Georgia,"Times New Roman",serif!important;font-style:normal!important;font-weight:400!important;line-height:1}.section{padding:92px 22px}.wrap{width:min(1040px,100%);margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.28em;font-size:11px;font-weight:500;color:var(--muted);margin-bottom:18px}.title{font:500 clamp(42px,8vw,78px)/.95 "Cormorant Garamond",serif;margin-bottom:24px}.lead{font-size:clamp(16px,2.5vw,20px);line-height:1.8;color:var(--muted);max-width:690px;margin-inline:auto}
     .hero{min-height:100svh;position:relative;display:grid;place-items:end center;background:#17191b url('assets/hero.jpg') center 28%/cover no-repeat;color:white;text-align:center;padding:40px 22px 60px}.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(8,10,12,.18),rgba(8,10,12,.08) 40%,rgba(8,10,12,.82))}.hero-inner{position:relative;z-index:1;max-width:850px}.hero-kicker{letter-spacing:.35em;text-transform:uppercase;font-size:11px;margin-bottom:22px}.hero h1{font:400 clamp(64px,16vw,130px)/.72 "Cormorant Garamond",serif;margin:0 0 30px;text-shadow:0 2px 20px rgba(0,0,0,.25)}.hero h1 span{display:block}.hero-date{font:400 26px/1.2 "Cormorant Garamond",serif;letter-spacing:.22em}.scroll{display:inline-flex;margin-top:30px;width:36px;height:58px;border:1px solid rgba(255,255,255,.55);border-radius:20px;align-items:flex-start;justify-content:center;padding-top:9px}.scroll:after{content:"";width:4px;height:9px;border-radius:5px;background:#fff;animation:scroll 1.8s infinite}@keyframes scroll{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(25px)}}
     .intro{text-align:center;background:var(--paper)}.monogram{width:76px;height:76px;border:1px solid var(--rose);border-radius:50%;display:grid;place-items:center;margin:0 auto 30px;font:italic 34px "Cormorant Garamond",serif;color:var(--rose)}
     .date-card{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;max-width:700px;margin:48px auto 0}.date-side{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:17px 5px;text-transform:uppercase;letter-spacing:.18em;font-size:12px}.date-day{font:500 108px/.8 "Cormorant Garamond",serif;color:var(--rose)}
@@ -25,7 +25,6 @@
     .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s ease,transform .9s ease}.reveal.visible{opacity:1;transform:none}
     @media(max-width:760px){.section{padding:72px 20px}.hero{min-height:92svh;background-position:54% center}.date-card{gap:12px}.date-day{font-size:82px}.story-grid{grid-template-columns:1fr;gap:45px}.story-photo img{height:530px}.small-photo{margin-top:-65px}.events:before{left:57px}.event{grid-template-columns:72px 1fr;gap:20px;padding:25px 0}.event-time{text-align:left;font-size:35px}.event-dot{position:absolute;left:51px;margin-top:-95px;width:13px;height:13px}.event-info{text-align:left}.counter{gap:15px}.counter b{font-size:46px}.palette{gap:8px}.swatch{width:46px;height:46px}.final{min-height:65vh}}
 
-    /* Видеозаставка с пользовательским экраном запуска для iPhone/Safari */
     body.intro-playing{overflow:hidden;touch-action:none}
     .video-intro{position:fixed;inset:0;z-index:10000;background:#080706;overflow:hidden;opacity:1;visibility:visible;transition:opacity .85s ease,visibility .85s ease}
     .video-intro video{position:absolute;inset:0;width:100vw;height:100dvh;min-width:100%;min-height:100%;object-fit:cover!important;object-position:center;display:block;opacity:0;pointer-events:none;transform:translateZ(0) scale(1.02);transition:opacity .7s ease;-webkit-transform:translateZ(0) scale(1.02)}
@@ -55,7 +54,7 @@
     </video>
     <div class="video-gate" id="videoGate">
       <div class="video-gate-inner">
-        <div class="video-gate-monogram">Р &amp; А</div>
+        <div class="video-gate-monogram">Р <span class="ampersand">&amp;</span> А</div>
         <p class="video-gate-date">19 · 09 · 2026</p>
         <button class="video-gate-button" id="enterWedding" type="button">Принять участие в свадьбе</button>
         <p class="video-gate-hint">Нажмите, чтобы открыть приглашение</p>
@@ -66,7 +65,7 @@
   <header class="hero">
     <div class="hero-inner">
       <div class="hero-kicker">Приглашение на свадьбу</div>
-      <h1><span>Роман</span><span>&amp; Анна</span></h1>
+      <h1><span>Роман</span><span><span class="ampersand">&amp;</span> Анна</span></h1>
       <div class="hero-date">19 · 09 · 2026</div>
       <a href="#welcome" class="scroll" aria-label="Листать вниз"></a>
     </div>
@@ -74,7 +73,7 @@
 
   <section class="section intro" id="welcome">
     <div class="wrap reveal">
-      <div class="monogram">Р&amp;А</div>
+      <div class="monogram">Р<span class="ampersand">&amp;</span>А</div>
       <div class="eyebrow">Дорогие родные и близкие</div>
       <h2 class="title">Мы будем счастливы разделить<br>этот день вместе с вами</h2>
       <p class="lead">Совсем скоро состоится важное для нас событие — наша свадьба. Приглашаем вас стать частью этого тёплого и радостного дня.</p>
@@ -128,7 +127,7 @@
   </section>
 
   <section class="final"><div class="final-inner reveal"><div class="eyebrow" style="color:rgba(255,255,255,.7)">До встречи на нашей свадьбе</div><h2>С любовью,<br>Роман и Анна</h2><p>19 сентября 2026 года</p></div></section>
-  <footer class="footer">ROMAN &amp; ANNA · 19.09.2026</footer>
+  <footer class="footer">ROMAN <span class="ampersand">&amp;</span> ANNA · 19.09.2026</footer>
 
   <script>
 
