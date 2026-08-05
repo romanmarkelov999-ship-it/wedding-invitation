@@ -1,0 +1,35 @@
+name: Fix caramel image extension
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-caramel-extension.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  fix-caramel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Update caramel image path
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+          old = "assets/35B14F9C-D545-4397-8D0D-74143B5956B6.png"
+          new = "assets/35B14F9C-D545-4397-8D0D-74143B5956B6.PNG"
+          if old not in text:
+              raise SystemExit(f'Old path not found: {old}')
+          path.write_text(text.replace(old, new), encoding='utf-8')
+          PY
+      - name: Commit updated path
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Исправить расширение изображения карамельного цвета"
+          git push
