@@ -1,0 +1,59 @@
+name: Update dress-code palette
+
+on:
+  push:
+    paths:
+      - '.github/workflows/update-palette.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update-palette:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Replace palette artwork with uploaded photos
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          html = path.read_text(encoding='utf-8')
+
+          replacements = {
+              "assets/palette/deep-blue.svg": "assets/EC7ECDB2-2974-49EC-A905-C8AB5384D95E.png",
+              "assets/palette/sky-blue.svg": "assets/A11CB920-46AC-44FA-B186-A0C7F6953D73.png",
+              "assets/palette/olive.svg": "assets/BFB62279-0A0A-4FD5-AA83-B3AC581AAC86.png",
+              "assets/palette/light-pink.svg": "assets/DE646902-AA44-4BC6-8C7A-478C724CA5DE.png",
+              "assets/palette/terracotta.svg": "assets/3A3FD755-D8D0-4A31-908C-1706BB32CF52.png",
+              "assets/palette/burgundy.svg": "assets/E324411E-8403-4CFD-A4C8-5E064136CAC9.png",
+              "assets/palette/caramel.svg": "assets/BDC9B9F3-9452-428D-8A2C-6FA2BA3299E4.png",
+              "assets/palette/brown.svg": "assets/5A7A3DEE-AEE5-4FCA-B40A-A98DFCBA6843.png",
+              "assets/palette/black.svg": "assets/2421FB70-C756-403C-B8C9-C37C7B569B9D.png",
+              "assets/palette/milk.svg": "assets/35B14F9C-D545-4397-8D0D-74143B5956B6.png",
+          }
+
+          missing = []
+          for old, new in replacements.items():
+              if old not in html:
+                  missing.append(old)
+              html = html.replace(old, new)
+
+          if missing:
+              raise SystemExit('Не найдены ссылки: ' + ', '.join(missing))
+
+          path.write_text(html, encoding='utf-8')
+          PY
+
+      - name: Commit updated page
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Заменить изображения палитры дресс-кода" || exit 0
+          git push
